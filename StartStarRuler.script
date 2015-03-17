@@ -1,0 +1,4 @@
+function SetBuildOptions(base)
+{
+    IO.Execute("G:/Star Ruler 2 Modded/Star Ruler 2.exe");
+} 
