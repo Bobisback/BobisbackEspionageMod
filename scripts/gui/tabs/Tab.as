@@ -10,7 +10,6 @@ enum TabCategory {
 	TC_Graphics,
 	TC_Diplomacy,
 	TC_Wiki,
-	TC_Research,
 };
 
 class Tab : BaseGuiElement {
