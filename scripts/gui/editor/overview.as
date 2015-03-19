@@ -6,6 +6,7 @@ import elements.GuiPanel;
 import elements.GuiSkinElement;
 import dialogs.QuestionDialog;
 from tabs.ResearchTab import ResearchEditor;
+from tabs.EspionageTab import EspionageEditor;
 import icons;
 
 class OverviewTab : Tab, QuestionDialogCallback {
@@ -18,6 +19,7 @@ class OverviewTab : Tab, QuestionDialogCallback {
 	array<GuiButton@> buttons;
 
 	GuiButton@ researchGridBtn;
+	GuiButton@ espionageGridBtn;
 
 	OverviewTab() {
 		super();
@@ -54,6 +56,9 @@ class OverviewTab : Tab, QuestionDialogCallback {
 		int y = ceil(double(fileClasses.length) / 3.0) * 50 + 42 + 50;
 		@researchGridBtn = GuiButton(this, Alignment(Left+412, Top+y, Width=250, Height=42), "Research Grid");
 		researchGridBtn.font = FT_Medium;
+		
+		@espionageGridBtn = GuiButton(this, Alignment(Left+412+258, Top+y, Width=250, Height=42), "Espionage Grid");
+		espionageGridBtn.font = FT_Medium;
 
 		updateAbsolutePosition();
 	}
@@ -114,6 +119,10 @@ class OverviewTab : Tab, QuestionDialogCallback {
 			}
 			else if(evt.caller is researchGridBtn) {
 				open(ResearchEditor());
+				return true;
+			}
+			else if(evt.caller is espionageGridBtn) {
+				open(EspionageEditor());
 				return true;
 			}
 			else for(uint i = 0, cnt = buttons.length; i < cnt; ++i) {

@@ -11,6 +11,7 @@ import Tab@ createHomeTab() from "tabs.HomeTab";
 import bool isHomeTab(Tab@) from "tabs.HomeTab";
 import Tab@ createDiplomacyTab() from "tabs.DiplomacyTab";
 import Tab@ createResearchTab() from "tabs.ResearchTab";
+import Tab@ createEspionageTab() from "tabs.EspionageTab";
 import Tab@ createGalaxyTab() from "tabs.GalaxyTab";
 import Tab@ createPlanetsTab() from "tabs.PlanetsTab";
 import Tab@ createWikiTab() from "tabs.WikiTab";
@@ -816,6 +817,7 @@ void init() {
 	newTab(defaultTab);
 	switchToTab(defaultTab);
 
+	newTab(createEspionageTab());
 	newTab(createDiplomacyTab());
 	newTab(createResearchTab());
 	newTab(createDesignOverviewTab());

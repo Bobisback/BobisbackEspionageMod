@@ -820,3 +820,23 @@ class SoundFile : FileDef {
 		field("Volume", AT_Decimal, "1", doc="Relative volume to play the sound at.");
 	}
 };
+
+class EspionageFile : FileDef {
+	EspionageFile() {
+		localeFile = "espionage.txt";
+		block("Espionage", doc="A type of technology that can be placed on the espionage grid.",
+				hookType="research::ITechnologyHook", hookModule="research_effects").checkDuplicates(espionageCompletions);
+			field("Name", AT_Locale, "", doc="Name of the technology.");
+			field("Blurb", AT_Locale, "", doc="Very short description of the technology's effects, for display on the grid.");
+			field("Description", AT_Locale, "", doc="Description of the technology.");
+			field("Icon", AT_Sprite, "", doc="Icon used to represent the technology.");
+			field("Color", AT_Color, "", doc="The technology's representative color.");
+			field("Point Cost", AT_Decimal, "0", doc="The amount of espionage points this technology costs to use.");
+			field("Time Cost", AT_Decimal, "0", doc="The time in seconds this technology takes to use.");
+			field("Default Unlock", AT_Boolean, "False", doc="Whether all nodes of this technology type start unlocked by default.");
+	}
+
+	void onChange() {
+		loadCompletions(espionageCompletions, "data/espionage", "Espionage");
+	}
+};

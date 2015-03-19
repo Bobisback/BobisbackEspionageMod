@@ -96,6 +96,7 @@ array<Completion@> voteCompletions;
 array<Completion@> effectCompletions;
 array<Completion@> anomalyCompletions;
 array<Completion@> creepCompletions;
+array<Completion@> espionageCompletions;
 
 bool completionsInitialized = false;
 void initCompletions() {
@@ -119,4 +120,5 @@ void initCompletions() {
 	loadCompletions(effectCompletions, "data/influence", "Effect");
 	loadCompletions(anomalyCompletions, "data/anomalies", "Anomaly");
 	loadCompletions(creepCompletions, "data/creeps", "Camp");
+	loadCompletions(espionageCompletions, "data/espionage", "Espionage");
 }

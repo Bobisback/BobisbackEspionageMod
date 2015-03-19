@@ -21,8 +21,8 @@ import editor.locale;
 from gui import animate_time, navigateInto, animate_speed, animate_remove, animate_snap;
 from tabs.tabbar import newTab, switchToTab;
 
-Tab@ createResearchTab() {
-	return ResearchTab();
+Tab@ createEspionageTab() {
+	return EspionageTab();
 }
 
 const vec2i T_SIZE(201, 134);
@@ -98,7 +98,7 @@ class TechDisplay : BaseGuiElement {
 
 			if(node.type.pointCost != 0) {
 				if(costText.length != 0)
-					costText = format(" [color=#888]$1[/color] ", locale::RESEARCH_COST_OR)+costText;
+					costText = format(" [color=#888]$1[/color] ", locale::ESPIONAGE_COST_OR)+costText;
 				costText = format("[img=$1;$4/][color=$2][b]$3[/b][/color]",
 					getSpriteDesc(icons::Research), toString(colors::Research),
 					toString(node.type.pointCost, 0), haveSecondary?"20":"30")+costText;
@@ -340,7 +340,7 @@ class TechTooltip : BaseGuiElement {
 			if(cost <= 0)
 				desc += "\n";
 			desc += format("\n[img=$1;20/] [b]$2[/b]: [offset=200]$3[/offset]",
-					getSpriteDesc(icons::Duration), locale::RESEARCH_TIME, formatTime(time));
+					getSpriteDesc(icons::Duration), locale::ESPIONAGE_TIME, formatTime(time));
 		}
 
 		description.text = format(
@@ -363,7 +363,7 @@ class TechTooltip : BaseGuiElement {
 	}
 };
 
-class ResearchTab : Tab {
+class EspionageTab : Tab {
 	GuiPanel@ panel;
 	array<TechDisplay@> techs;
 
@@ -371,8 +371,8 @@ class ResearchTab : Tab {
 	TechDisplay@ selected;
 	double zoom = 1.0;
 
-	ResearchTab() {
-		title = locale::RESEARCH;
+	EspionageTab() {
+		title = locale::ESPIONAGE;
 
 		@panel = GuiPanel(this, Alignment(Left, Top, Right, Bottom));
 		panel.setScrollPane(true);
@@ -401,7 +401,7 @@ class ResearchTab : Tab {
 	}	
 
 	TabCategory get_category() {
-		return TC_Research;
+		return TC_Espionage;
 	}
 
 	Sprite get_icon() {
@@ -409,7 +409,7 @@ class ResearchTab : Tab {
 	}
 
 	void update() {
-		auto@ dat = playerEmpire.getTechnologyNodes();
+		/*auto@ dat = playerEmpire.getTechnologyNodes();
 		uint index = 0;
 		uint prevCnt = techs.length;
 		while(true) {
@@ -427,12 +427,12 @@ class ResearchTab : Tab {
 		techs.length = index;
 		if(prevCnt == 0)
 			panel.centerAround(vec2i(0,0));
-		ttip.bringToFront();
+		ttip.bringToFront();*/
 	}
 
 	void updatePositions() {
-		for(uint i = 0, cnt = techs.length; i < cnt; ++i)
-			techs[i].update(zoom);
+		//for(uint i = 0, cnt = techs.length; i < cnt; ++i)
+		//	techs[i].update(zoom);
 	}
 
 	void updateAbsolutePosition() {
@@ -534,11 +534,11 @@ class ResearchTab : Tab {
 	}
 };
 
-class ResearchEditor : ResearchTab {
+class EspionageEditor : EspionageTab {
 	bool created = false;
 	vec2i hovered(INT_MAX,INT_MAX);
 
-	ResearchEditor() {
+	EspionageEditor() {
 		super();
 		panel.minPanelSize = recti(-20000,-20000, 20000,20000);
 	}
@@ -550,9 +550,9 @@ class ResearchEditor : ResearchTab {
 	}
 
 	Completion@ getCompletion(const string& ident) {
-		for(uint i = 0, cnt = techCompletions.length; i < cnt; ++i) {
-			if(techCompletions[i].ident == ident) {
-				return techCompletions[i];
+		for(uint i = 0, cnt = espionageCompletions.length; i < cnt; ++i) {
+			if(espionageCompletions[i].ident == ident) {
+				return espionageCompletions[i];
 			}
 		}
 		return null;
@@ -580,7 +580,7 @@ class ResearchEditor : ResearchTab {
 				techs[i].remove();
 			techs.length = 0;
 
-			const string fname = resolve("data/research/base_grid.txt");
+			const string fname = resolve("data/espionage/base_grid.txt");
 			ReadFile file(fname, true);
 			while(file++) {
 				if(file.key != "Grid") {
@@ -631,7 +631,7 @@ class ResearchEditor : ResearchTab {
 	}
 
 	void save() {
-		const string fname = path_join(topMod.abspath, "data/research/base_grid.txt");
+		const string fname = path_join(topMod.abspath, "data/espionage/base_grid.txt");
 		ensureFile(fname);
 		WriteFile file(fname);
 		file.writeKeyValue("Grid", "Base");
@@ -708,7 +708,7 @@ class ResearchEditor : ResearchTab {
 	}
 
 	void draw() {
-		ResearchTab::draw();
+		EspionageTab::draw();
 		if(hovered.x != INT_MAX && hovered.y != INT_MAX) {
 			vec2i pos;
 			pos.x = hovered.x * T_SIZE.x;
@@ -725,8 +725,8 @@ class ResearchEditor : ResearchTab {
 		GuiContextMenu menu(mousePos, width=300);
 		menu.itemHeight = 50;
 
-		for(uint i = 0, cnt = techCompletions.length; i < cnt; ++i) {
-			auto@ type = makeType(techCompletions[i]);
+		for(uint i = 0, cnt = espionageCompletions.length; i < cnt; ++i) {
+			auto@ type = makeType(espionageCompletions[i]);
 			menu.addOption(TechnologyItem(this, type, pos));
 		}
 
@@ -737,9 +737,9 @@ class ResearchEditor : ResearchTab {
 class TechnologyItem : GuiMarkupContextOption {
 	const TechnologyType@ type;
 	vec2i pos;
-	ResearchEditor@ editor;
+	EspionageEditor@ editor;
 
-	TechnologyItem(ResearchEditor@ editor, const TechnologyType@ type, vec2i pos) {
+	TechnologyItem(EspionageEditor@ editor, const TechnologyType@ type, vec2i pos) {
 		@this.type = type;
 		this.pos = pos;
 		@this.editor = editor;
@@ -755,14 +755,14 @@ class TechnologyItem : GuiMarkupContextOption {
 	}
 }
 
-class ResearchEditorCommand : ConsoleCommand {
+class EspionageEditorCommand : ConsoleCommand {
 	void execute(const string& args) {
-		Tab@ editor = ResearchEditor();
+		Tab@ editor = EspionageEditor();
 		newTab(editor);
 		switchToTab(editor);
 	}
 };
 
 void init() {
-	addConsoleCommand("research_editor", ResearchEditorCommand());
+	addConsoleCommand("Espionage_editor", EspionageEditorCommand());
 }

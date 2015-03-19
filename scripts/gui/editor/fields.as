@@ -928,6 +928,8 @@ Field@ makeField(ArgumentType type, IGuiElement@ parent, const recti& pos) {
 			return CompletionField(parent, pos, artifactCompletions);
 		case AT_Technology:
 			return CompletionField(parent, pos, techCompletions);
+		case AT_Espionage:
+			return CompletionField(parent, pos, espionageCompletions);
 		case AT_PlanetBiome:
 			return CompletionField(parent, pos, biomeCompletions);
 		case AT_InfluenceCard:

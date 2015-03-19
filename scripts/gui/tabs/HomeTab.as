@@ -7,12 +7,14 @@ from tabs.GalaxyTab import createGalaxyTab;
 from tabs.DesignOverviewTab import createDesignOverviewTab;
 from tabs.WikiTab import createWikiTab;
 from tabs.ResearchTab import createResearchTab;
+from tabs.EspionageTab import createEspionageTab;
 from tabs.PlanetsTab import createPlanetsTab;
 from community.Home import createCommunityHome;
 
 class HomeTab : Tab {
 	GuiButton@ galaxyButton;
 	GuiButton@ researchButton;
+	GuiButton@ espionageButton;
 	GuiButton@ designsButton;
 	GuiButton@ diplomacyButton;
 	GuiButton@ planetsButton;
@@ -47,6 +49,10 @@ class HomeTab : Tab {
 		wikiButton.font = FT_Medium;
 		wikiButton.buttonIcon = Sprite(spritesheet::MenuIcons, 3);
 		wikiButton.color = Color(0xff0077ff);
+		@espionageButton = GuiButton(this, Alignment(Left+0.5f-w-hw, Top+200, Width=w-10, Height=80), locale::ESPIONAGE);
+		espionageButton.font = FT_Medium;
+		espionageButton.buttonIcon = Sprite(material::SystemUnderAttack);
+		espionageButton.color = Color(0xff9600ff);
 	}
 
 	void hide() {
@@ -82,6 +88,10 @@ class HomeTab : Tab {
 			}
 			else if(event.caller is researchButton) {
 				browseTab(this, createResearchTab(), false);
+				return true;
+			}
+			else if(event.caller is espionageButton) {
+				browseTab(this, createEspionageTab(), false);
 				return true;
 			}
 			else if(event.caller is designsButton) {

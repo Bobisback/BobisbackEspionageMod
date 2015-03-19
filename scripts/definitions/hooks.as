@@ -62,6 +62,7 @@ enum ArgumentType {
 	AT_OrbitalModule,
 	AT_Artifact,
 	AT_Technology,
+	AT_Espionage,
 	AT_Global,
 	AT_SysVar,
 	AT_Sprite,
@@ -355,6 +356,19 @@ final class Argument {
 					integer = -1;
 				}
 			break;
+			case AT_Espionage:
+				if(str.length != 0) {
+					integer = getTechnologyID(str);
+					if(integer == -1) {
+						error(" Error: Unknown technology: "+str);
+						return false;
+					}
+					str = "";
+				}
+				else {
+					integer = -1;
+				}
+			break;
 			case AT_OrbitalModule:
 				if(str.length != 0) {
 					integer = getOrbitalModuleID(str);
@@ -488,6 +502,7 @@ final class Argument {
 			case AT_Artifact:
 			case AT_Building:
 			case AT_Technology:
+			case AT_Espionage:
 			case AT_OrbitalModule:
 			case AT_Ability:
 				str = value;
@@ -602,6 +617,8 @@ final class Argument {
 			case AT_Building:
 				return getBuildingIdent(integer);
 			case AT_Technology:
+				return getTechnologyIdent(integer);
+			case AT_Espionage:
 				return getTechnologyIdent(integer);
 			case AT_OrbitalModule:
 				return getOrbitalModuleIdent(integer);
